@@ -29,7 +29,7 @@ before_script:
 script:
   - travis_retry docker build -t "$image" .
 
-script:
+before_deploy:
   - travis_retry docker run --rm -it -v /app/ss:$TRAVIS_BUILD_DIR -e ver=${SS_VERSION} "$image" update
 
 deploy:
