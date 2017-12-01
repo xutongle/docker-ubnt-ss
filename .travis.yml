@@ -24,14 +24,14 @@ before_script:
 before_script:
   - env | sort
   - cd "$VERSION"
-  - image="xutongle/docker-ubnt-mipsel:${SS_VERSION}"
+  - image="xutongle/docker-ubnt-mipsel"
 
 script:
   - travis_retry docker run --rm -it -v /app/ss:$TRAVIS_BUILD_DIR -e ver=${SS_VERSION} "$image" update
 
 deploy:
   provider: releases
-  api_key: "GITHUB OAUTH TOKEN"
+  api_key: "${GITHUB_API_TOKEN}"
   file: $TRAVIS_BUILD_DIR/*
   skip_cleanup: true
 
