@@ -1,5 +1,7 @@
 # docker-ubnt-ss
 
+[![Build Status](https://travis-ci.org/xutongle/docker-ubnt-ss.svg?branch=master)](https://travis-ci.org/xutongle/docker-ubnt-ss)
+
 Get default ss version
 
 docker run --rm -v /app/ss:/ss xutongle/docker-ubnt-ss
