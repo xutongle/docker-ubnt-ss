@@ -34,5 +34,6 @@ deploy:
   api_key: "${GITHUB_API_TOKEN}"
   file: $TRAVIS_BUILD_DIR/*
   skip_cleanup: true
-
+  on:
+    tags: true
 # vim:set et ts=2 sw=2:
