@@ -23,16 +23,16 @@ before_script:
 
 before_script:
   - env | sort
-  - cd "$VERSION" && mkdir build
+  - cd "$VERSION"
   - image="xutongle/docker-ubnt-ss:${SS_VERSION}"
 
 script:
   - travis_retry docker build -t "$image" .
-  - travis_retry docker run --rm -it -v $TRAVIS_BUILD_DIR/build:/ss -e ver=${SS_VERSION} "$image" update
-  - travis_retry cd $TRAVIS_BUILD_DIR/build && ls -la
+  - travis_retry docker run --rm -it -v $TRAVIS_BUILD_DIR/shadowsocks-libev:/ss -e ver=${SS_VERSION} "$image" update
+  - travis_retry cd $TRAVIS_BUILD_DIR/shadowsocks-libev && ls -la
 
 before_deploy:
-  - travis_retry docker run --rm -it -v $TRAVIS_BUILD_DIR/build:/ss -e ver=${SS_VERSION} "$image" update
+  - travis_retry docker run --rm -it -v $TRAVIS_BUILD_DIR/shadowsocks-libev:/ss -e ver=${SS_VERSION} "$image" update
 
 deploy:
   provider: releases
