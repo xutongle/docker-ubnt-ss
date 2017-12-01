@@ -24,7 +24,10 @@ before_script:
 before_script:
   - env | sort
   - cd "$VERSION"
-  - image="xutongle/docker-ubnt-mipsel"
+  - image="xutongle/docker-ubnt-ss:${SS_VERSION}"
+
+script:
+  - travis_retry docker build -t "$image" .
 
 script:
   - travis_retry docker run --rm -it -v /app/ss:$TRAVIS_BUILD_DIR -e ver=${SS_VERSION} "$image" update
