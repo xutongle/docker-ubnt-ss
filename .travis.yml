@@ -28,11 +28,10 @@ before_script:
 
 script:
   - travis_retry docker build -t "$image" .
-  - travis_retry docker run --rm -it -v $TRAVIS_BUILD_DIR:/ss -e ver=${SS_VERSION} "$image" update
-  - travis_retry tar -vczf shadowsocks-libev-${SS_VERSION}.tar.gz $TRAVIS_BUILD_DIR/shadowsocks-libev/bin/
 
 before_deploy:
   - travis_retry docker run --rm -it -v $TRAVIS_BUILD_DIR:/ss -e ver=${SS_VERSION} "$image" update
+  - travis_retry tar -vczf shadowsocks-libev-${SS_VERSION}.tar.gz $TRAVIS_BUILD_DIR/shadowsocks-libev/bin/
 
 deploy:
   provider: releases
