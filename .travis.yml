@@ -30,15 +30,14 @@ script:
   - travis_retry docker build -t "$image" .
   - travis_retry docker run --rm -it -v $TRAVIS_BUILD_DIR:/ss -e ver=${SS_VERSION} "$image" update
   - travis_retry tar -vczf shadowsocks-libev-${SS_VERSION}.tar.gz $TRAVIS_BUILD_DIR/shadowsocks-libev/bin/
-  - travis_retry cd $TRAVIS_BUILD_DIR/shadowsocks-libev/bin && ls -la
-  - travis_retry cd $TRAVIS_BUILD_DIR && ls -la
 
 before_deploy:
-  - travis_retry docker run --rm -it -v $TRAVIS_BUILD_DIR/shadowsocks-libev:/ss -e ver=${SS_VERSION} "$image" update
+  - travis_retry docker run --rm -it -v $TRAVIS_BUILD_DIR:/ss -e ver=${SS_VERSION} "$image" update
 
 deploy:
   provider: releases
   api_key: "${GITHUB_API_TOKEN}"
+  file_glob: true
   file: $TRAVIS_BUILD_DIR/shadowsocks-libev/bin/*
   skip_cleanup: true
   on:
