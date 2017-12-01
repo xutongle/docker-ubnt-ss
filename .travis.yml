@@ -1,0 +1,41 @@
+language: bash
+
+sudo: required
+
+services:
+  - docker
+
+env:
+  - SS_VERSION=3.1.1
+
+before_install:
+  - export DOCKER_COMPOSE_VERSION=1.17.1
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+before_script:
+  - pwd
+  - docker version
+  - docker info
+  - docker-compose version
+
+before_script:
+  - env | sort
+  - cd "$VERSION"
+  - image="xutongle/xutongle/docker-ubnt-mipsel:${SS_VERSION}"
+
+script:
+  - travis_retry docker build --build-arg SS_VERSION=${SS_VERSION} -t "$image" .
+
+before_deploy:
+      - docker run --rm -it -v /app/ss:$TRAVIS_BUILD_DIR -e ver=${SS_VERSION} "$image" update
+
+deploy:
+  provider: releases
+  api_key: "GITHUB OAUTH TOKEN"
+  file: $TRAVIS_BUILD_DIR/*
+  skip_cleanup: true
+
+# vim:set et ts=2 sw=2:
